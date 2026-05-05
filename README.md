@@ -139,30 +139,20 @@ Kandidati ignorišu retoriku oglasa. Odluke o apliciranju se donose na osnovu st
 ### Preduslovi
 
 ```bash
-pip install -r requirements.txt
+pip install pandas scipy seaborn networkx python-louvain groq
 ```
 
 ### Konfiguracija
 
-```bash
-cp .env.example .env
+U notebook-u postaviti svoj Groq API key:
+
+```python
+GROQ_API_KEY = "your_api_key_here"
 ```
 
-```env
-GROQ_API_KEY=your_api_key_here
-```
+### Analiza
 
-### Pokretanje analize
+Otvoriti i pokrenuti `ProjekatNAP.ipynb` u celini. Ćelije su organizovane redom: ekstrakcija → mrežna analiza → korelaciona analiza.
 
-```bash
-# LLM ekstrakcija
-python src/extraction.py
+> LLM ekstrakcija nad celim datasetom može trajati duže — preporučuje se pokretanje nad podskupom za testiranje.
 
-# Mrežna analiza
-python src/network_analysis.py
-
-# Korelaciona analiza
-python src/correlation.py
-```
-
-> Napomena: LLM ekstrakcija nad celim datasetom može trajati duže — preporučuje se pokretanje nad podskupom za testiranje.
