@@ -1,0 +1,17 @@
+pandas
+numpy
+scipy
+matplotlib
+seaborn
+networkx
+python-louvain
+
+langchain
+langchain-groq
+groq
+
+pydantic
+
+jupyter
+notebook
+ipykernel
