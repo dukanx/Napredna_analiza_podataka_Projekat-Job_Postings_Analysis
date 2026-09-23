@@ -1,158 +1,66 @@
-# Analiza Dinamike IT Tržišta Rada
+# Analiza IT tržišta rada primenom velikih jezičkih modela i mrežnih metoda
 
-LLM ekstrakcija i mrežna analiza tehnologija na osnovu LinkedIn oglasa za posao.
+Kod uz završni rad na Fakultetu organizacionih nauka u Beogradu (mentor prof. dr Jelena Jovanović). Rad je nastao iz projekta za predmet Napredna analiza podataka.
 
-| | |
+[English version](README_en.md)
+
+Pitanje: kandidat zna nekoliko tehnologija, šta vredi da uči sledeće? Odgovor se traži u oglasima za posao. Iz slobodnog teksta oglasa veliki jezički model izdvaja tražene tehnologije. Nad njima se gradi mreža tehnologija koje se traže zajedno, a na kraju se porede modeli koji kandidatu predlažu sledeću tehnologiju.
+
+## Podaci
+
+Skup [LinkedIn Job Postings (2023 - 2024)](https://www.kaggle.com/datasets/arshkon/linkedin-job-postings) sa Kaggle-a, licenca CC BY-SA 4.0. Ima 123.849 oglasa, gotovo svi iz aprila 2024. godine, za tržište SAD.
+
+| Korak | Oglasa |
+|---|---:|
+| Svi oglasi | 123.849 |
+| Posle filtera po LinkedIn oznaci i nazivu pozicije | 15.306 |
+| Posle uklanjanja identičnih kopija | 14.156 |
+| Posle odluke jezičkog modela da je oglas IT posao | 11.713 |
+
+## Rezultati ukratko
+
+- Jezički model je `gpt-oss-20b` preko servisa Groq, sa odgovorom u zadatoj šemi (Pydantic, structured output). Obrada svih oglasa koštala je 3,01 $.
+- Ručna provera filtera na 50 nasumičnih oglasa: preciznost 0,902, odziv 1,000.
+- Mreža ima 189 tehnologija i 1.260 veza, a težina veze je lift. Louvain je dao 14 klastera, uz modularnost 0,640. Podela je izabrana kao tipičan ishod 100 pokretanja.
+- Habovi (Python, AWS, Java, SQL) povezani su sa gotovo svim oblastima. Mostovi sa malo veza (Cisco, Active Directory, DB2) povezuju po jednu usku oblast sa ostatkom mreže.
+- Preporuka je proverena tako što se iz oglasa sakrije jedna tehnologija i gleda da li je model vraća među deset predloga. Skup je podeljen po firmama, pa nijedna firma nije i u učenju i u proveri.
+
+| Model | recall@10 | Pokrivenost spiska |
+|---|---:|---:|
+| popularnost | 0,348 | 7,3 % |
+| Apriori | 0,565 | 33,1 % |
+| sličnost po lift-u | 0,355 | 99,3 % |
+| hibridni model | 0,600 | 97,6 % |
+
+![Podmreža od 50 najčešćih tehnologija](figures/mreza_top50.png)
+
+## Sveske
+
+| Sveska | Sadržaj |
 |---|---|
-| **Kurs** | Napredna Analiza Podataka |
-| **Autor** | Nikola Dukić |
-| **Dataset** | LinkedIn Job Postings 2023/2024 (Kaggle) |
-| **Obim** | 1.460 IT pozicija |
+| [01_ekstrakcija.ipynb](01_ekstrakcija.ipynb) | filtriranje IT oglasa, izbor modela, izdvajanje tehnologija, uticaj dužine opisa, ručna provera filtera |
+| [02_analiza.ipynb](02_analiza.ipynb) | kanonizacija naziva, mreža tehnologija, centralnost, habovi i mostovi, klasteri |
+| [03_preporuka.ipynb](03_preporuka.ipynb) | popularnost, Apriori, sličnost po lift-u, hibridni model, provera na pet podela po firmama |
+| [04_plate.ipynb](04_plate.ipynb) | dodatna analiza plata po tehnologijama, nije deo završnog rada |
 
----
+Sveske se pokreću redom, jer svaka čita ono što je prethodna upisala u `data/interim/`.
 
-## Sadržaj
+## Ostali folderi
 
-- [Cilj projekta](#cilj-projekta)
-- [Istraživačka pitanja](#istraživačka-pitanja)
-- [Metodologija](#metodologija)
-- [Rezultati](#rezultati)
-- [Ograničenja](#ograničenja)
-- [Tech stack](#tech-stack)
-- [Pokretanje](#pokretanje)
-
----
-
-## Cilj projekta
-
-Analiza IT tržišta rada kroz tri komplementarna pristupa:
-
-1. **LLM Ekstrakcija** — automatsko izvlačenje implicitnih karakteristika oglasa (tehnologije, ton, benefiti)
-2. **Mrežna Analiza** — mapiranje ekosistema tehnologija kroz co-occurrence grafove
-3. **Korelaciona Analiza** — ispitivanje veze između širine znanja i plate, i uticaja tona oglasa na angažovanje kandidata
-
----
-
-## Istraživačka pitanja
-
-1. **Tehnološki ekosistem** — Kako su tehnologije međusobno povezane? Koji su dominantni klasteri?
-2. **Plata vs. veštine** — Da li šira raznolikost tehnologija donosi višu platu?
-3. **Ton oglasa** — Da li red/green flags utiču na broj aplikacija?
-
----
-
-## Metodologija
-
-### LLM ekstrakcija
-
-Llama 3.3 70B (Groq API) korišćen za ekstrakciju strukturisanih podataka iz slobodnog teksta oglasa:
-
-- prepoznavanje tehnologija i alata
-- klasifikacija tona (red/green flags)
-- ekstrakcija benefita
-
-### Mrežna analiza
-
-Na osnovu ekstraktovanih tehnologija izgrađen je co-occurrence graf:
-
-- čvor = tehnologija
-- grana = zajedničko pojavljivanje u istom oglasu
-- **Louvain Community Detection** za otkrivanje klastera
-- metrike centralnosti za identifikaciju ključnih tehnologija
-
-### Korelaciona analiza
-
-- Pearsonova korelacija između broja tehnoloških oblasti i plate
-- korelacija između tone score-a i conversion rate-a (broj aplikacija / pregledi)
-- poređenje tehničkih i netehničkih pozicija kao kontrolna varijabla
-
----
-
-## Rezultati
-
-### 1. Tehnološki ekosistem
-
-- identifikovano **7 jasnih tehnoloških klastera**
-- **Python** i **AWS** su centralne tehnologije — pojavljuju se unutar svih klastera
-- Modularity score: **0.28** — validna podela uz očekivana preklapanja (full-stack pozicije)
-
-### 2. Plata i širina znanja
-
-| Skup podataka | Pearsonov r | Interpretacija |
-|---|---|---|
-| Sve pozicije | 0.13 | slaba pozitivna korelacija |
-| Samo tehničke pozicije | -0.08 | zanemarljivo |
-
-**Ključni nalaz — "Cluster 0 efekat":**
-
-Prividna pozitivna korelacija potiče isključivo iz razlike između netehničkih pozicija (0 klastera, niža plata) i tehničkih pozicija (1+ klastera, viša plata). Unutar tehničkih pozicija, širina znanja nema značajan uticaj na platu.
-
-> Tržište ne nagrađuje generaliste. Specijalizacija i seniority su važniji faktori od breadth-a znanja.
-
-### 3. Ton oglasa i angažovanje kandidata
-
-| Faktor | Korelacija s conversion rate-om | Interpretacija |
-|---|---|---|
-| Red flags | -0.09 | zanemarljiva negativna |
-| Green flags | -0.07 | zanemarljivo (suprotno očekivanju) |
-| Vibe score | 0.00 | nema uticaja |
-
-**Ključni nalaz:**
-
-Kandidati ignorišu retoriku oglasa. Odluke o apliciranju se donose na osnovu strukturnih faktora — naziv pozicije, kompanija, plata, lokacija — a ne na osnovu tona ili benefits marketinga.
-
-### Praktične implikacije
-
-**Za kandidate:**
-- fokus na specijalizaciju unutar jedne oblasti umesto "svaštarenja"
-- Python i AWS su "passport" tehnologije — otvaraju vrata u svim oblastima
-- marketing speak u oglasima nije signal kvaliteta kompanije
-
-**Za poslodavce:**
-- ton oglasa ne utiče na broj aplikacija — fokus na jasnoću pozicije i benefita
-- transparentnost oko plate je ključna
-
----
-
-## Ograničenja
-
-- **LLM ekstrakcija** — Llama 3.3 70B nije perfektan; detekcija tona je subjektivna i sklona greškama bez fine-tuninga
-- **Dataset** — samo LinkedIn oglasi (nedostaju startup oglasi, direktne aplikacije, domaći oglasi)
-- **Conversion rate** — broj aplikacija nije idealna mera angažovanja; nedostaju podaci o daljim fazama selekcije
-
----
-
-## Tech stack
-
-| Kategorija | Tehnologije |
-|---|---|
-| LLM | Llama 3.3 70B Versatile (Groq API) |
-| Mrežna analiza | NetworkX, python-louvain |
-| Analiza podataka | Pandas, SciPy |
-| Vizualizacija | Seaborn, Matplotlib |
-| Dataset | [LinkedIn Job Postings 2023–2024 (Kaggle)](https://www.kaggle.com/) |
-
----
+- `figures/`: sve slike iz svezaka.
+- `validacija/`: uzorak od 50 oglasa sa ručnom ocenom i uputstvo po kom je ocenjivan.
+- `data/interim/`: sačuvani odgovori jezičkog modela (`ekstrakcija_*.jsonl`), pa sveske ne moraju ponovo da pozivaju model.
+- `arhiva/`: prva verzija projekta za predmet Napredna analiza podataka, sa modelom `llama-3.3-70b` i uzorkom od 1.460 oglasa.
 
 ## Pokretanje
 
-### Preduslovi
-
 ```bash
-pip install pandas scipy seaborn networkx python-louvain groq
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
 ```
 
-### Konfiguracija
+CSV fajlove sa Kaggle-a treba staviti direktno u `data/raw/`, bez podfoldera. Sveske koriste `postings.csv`, `job_skills.csv`, `salaries.csv` i `companies.csv`.
 
-U notebook-u postaviti svoj Groq API key:
-
-```python
-GROQ_API_KEY = "your_api_key_here"
-```
-
-### Analiza
-
-Otvoriti i pokrenuti `ProjekatNAP.ipynb` u celini. Ćelije su organizovane redom: ekstrakcija → mrežna analiza → korelaciona analiza.
-
-> LLM ekstrakcija nad celim datasetom može trajati duže — preporučuje se pokretanje nad podskupom za testiranje.
-
+Odgovori modela su već u `data/interim/`, pa sveska 01 ne šalje nove zahteve i pravi Groq ključ nije potreban. Ključ u `.env` treba upisati samo za obradu oglasa koji nisu u kešu.
