@@ -1,0 +1,42 @@
+UPUTSTVO ZA OZNACAVANJE - TRECI KRUG
+====================================
+
+DEFINICIJA KOJU PRIMENJUJES
+
+IT pozicija je ona ciji je osnovni posao razvoj, odrzavanje ili obezbedjivanje
+softverskih, podatkovnih ili informacionih sistema.
+
+UKLJUCUJE:
+  - razvoj softvera svih vrsta (backend, frontend, mobilni, ugradjeni softver)
+  - podatke i analitiku (data engineering, BI, masinsko ucenje, izvestavanje)
+  - infrastrukturu i devops (cloud, mreze, sistemska administracija)
+  - IT podrsku i helpdesk
+  - informacionu bezbednost
+  - testiranje softvera i automatizaciju testiranja
+  - dizajn korisnickog interfejsa (UI/UX, veb dizajn)
+  - arhitekturu i integracije poslovnih sistema (Salesforce, SAP, MuleSoft)
+  - tehnicko rukovodjenje gde je posao vezan za softverske sisteme
+
+NE UKLJUCUJE:
+  - pozicije iz druge struke gde je softver samo alat
+    (vazduhoplovstvo, masinstvo, elektrotehnika, gradjevina, laboratorija)
+  - terenski rad na hardveru i opremi koji nije informacioni sistem
+  - prodaju, marketing, kadrovske i pravne poslove, cak i u softverskim firmama
+  - opste poslovno rukovodjenje bez tehnickog sadrzaja
+
+GRANICNI SLUCAJEVI - kako odluciti
+  Pitanje glasi: da li je predmet posla informacioni sistem, ili je informacioni
+  sistem samo sredstvo za posao iz druge oblasti?
+
+  Data analiticar u marketingu     -> DA   (predmet posla su podaci)
+  Elektroinzenjer u softverskoj firmi -> NE (predmet posla je hardver)
+  Inzenjer letne mehanike koji koristi Python -> NE (predmet je aerodinamika)
+  Helpdesk analiticar              -> DA   (predmet je informacioni sistem)
+
+KAKO SE POPUNJAVA
+  U koloni OCENA_da_ne upisi  da  ili  ne.
+  Odluku donosi na osnovu naziva pozicije i pocetka opisa.
+  Ne gledaj sta je model rekao - njegova ocena je namerno sakrivena.
+
+POSLE OZNACAVANJA
+  .venv/bin/python docs/oceni_validaciju.py 3

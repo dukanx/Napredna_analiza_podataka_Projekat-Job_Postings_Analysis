@@ -2,3 +2,22 @@
 __pycache__/
 .ipynb_checkpoints/
 .env
+.idea/
+.claude/
+
+# radne verzije rada i komentari mentora
+docs/
+
+# Sirovi podaci se preuzimaju sa Kaggle-a (postings.csv ima 493 MB).
+# U repozitorijumu su samo odgovori jezičkog modela i ključ ručne provere,
+# a sve ostalo u data/interim sveske prave iznova.
+data/raw/
+data/processed/
+data/interim/*
+*.csv
+*.parquet
+*.pkl
+!data/interim/ekstrakcija_*.jsonl
+!data/interim/stara_ekstrakcija_llama33.csv
+!data/interim/validacija_3_kljuc.json
+!validacija/*.csv

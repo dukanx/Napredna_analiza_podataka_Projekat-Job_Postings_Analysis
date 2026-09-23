@@ -1,16 +1,24 @@
-pandas
-numpy
-scipy
-matplotlib
-seaborn
-networkx
-python-louvain
+# Verzije sa kojima su dobijeni rezultati iz rada (Python 3.12).
+# Podela na klastere zavisi od verzije networkx-a, pa je ona obavezna.
+pandas==3.0.2
+numpy==2.4.4
+scipy==1.17.1
+pyarrow==25.0.1
 
-langchain
-langchain-groq
-groq
+matplotlib==3.10.9
+seaborn==0.13.2
 
-pydantic
+networkx==3.6.1
+pyvis==0.3.2
+
+scikit-learn==1.9.0
+statsmodels==0.15.0
+mlxtend==0.25.0
+
+openai==3.6.0
+pydantic==2.13.4
+python-dotenv==1.2.3
+tqdm==4.70.0
 
 jupyter
 notebook
