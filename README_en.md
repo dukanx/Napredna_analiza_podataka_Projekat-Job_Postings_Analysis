@@ -1,3 +1,5 @@
+<img src="assets/analiza-it-trzista-rounded-512.png" width="88" alt="IT Job Market Analysis">
+
 # Analysis of the IT Job Market Using Large Language Models and Network Methods
 
 Code for my bachelor's thesis at the Faculty of Organizational Sciences, University of Belgrade (mentor prof. dr Jelena Jovanović). The thesis grew out of a project for the Advanced Data Analysis course. The notebooks and the thesis are in Serbian.

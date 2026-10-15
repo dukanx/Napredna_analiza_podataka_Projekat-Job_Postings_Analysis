@@ -1,3 +1,5 @@
+<img src="assets/analiza-it-trzista-rounded-512.png" width="88" alt="Analiza IT tržišta">
+
 # Analiza IT tržišta rada primenom velikih jezičkih modela i mrežnih metoda
 
 Kod uz završni rad na Fakultetu organizacionih nauka u Beogradu (mentor prof. dr Jelena Jovanović). Rad je nastao iz projekta za predmet Napredna analiza podataka.

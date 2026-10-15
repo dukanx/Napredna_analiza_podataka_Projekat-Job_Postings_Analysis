@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>Analiza IT tržišta</title>
+  <rect width="1024" height="1024" fill="#F0A23B"/>
+  <polyline points="300,330 520,512 300,694" fill="none" stroke="#0E1A2B" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#0E1A2B">
+    <circle cx="300" cy="330" r="64"/>
+    <circle cx="520" cy="512" r="64"/>
+    <circle cx="300" cy="694" r="64"/>
+  </g>
+  <line x1="620" y1="694" x2="770" y2="694" stroke="#F3EFE6" stroke-width="64" stroke-linecap="round"/>
+</svg>
